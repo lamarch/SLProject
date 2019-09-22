@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using SLProject.SLCompilerLib.Lexer;
 using SLProject.SLCompilerLib.Parser.Nodes;
@@ -18,121 +19,91 @@ namespace SLProject.SLCompilerLib.Parser
             this.keywords = keywords;
         }
 
-        public RootNode Parse(List<Token> tokens)
+        public Node<double> Parse(List<Token> tokens)
         {
             index = 0;
             errors = new List<string>();
             this.tokens = tokens;
 
-            ExpectKeyword("debut");
-            Expect(TokenType.Identifier);
+            Node<double> root = ParseAddSub();
 
-            StatementSequence();
-
-            ExpectKeyword("fin");
+            if (GetToken().Type != TokenType.EOF)
+                throw new SyntaxErrorException("EOF token expected !");
 
             for (int i = 0; i < errors.Count; i++)
             {
                 Console.WriteLine("Error : " + errors[i]);
             }
 
-            return new RootNode("test");
-        }  
-        
-        void StatementSequence()
-        {
-            if (GetToken().Type == TokenType.Keyword && GetToken().GetStrValue() == "fin")
-                return;
+            return root;
+        }
 
-            while(GetToken().Type != TokenType.EOF)
+        Node<double> ParseAddSub()
+        {
+            var left = ParseUnary();
+            Func<double, double, double> op = null;
+            while (true)
             {
-                Statement();
-                if (GetToken().Type == TokenType.Keyword && GetToken().GetStrValue() == "fin")
-                    return;
+                op = null;
+                if(GetToken().Type == TokenType.Plus)
+                {
+                    op = (a, b) => a + b;
+                }else if(GetToken().Type == TokenType.Minus)
+                {
+                    op = (a, b) => a - b;
+                }
+
+                if (op == null)
+                    return left;
+
+                Advance();
+                var right = ParseUnary();
+                left = new BinaryNode<double>(left, right, op);
             }
         }
 
-        void Statement()
-        {
-            switch (GetToken().Type)
-            {
-                case TokenType.Keyword:
-                    switch (GetToken().GetStrValue())
-                    {
-                        case "chaine":
-                            BuildStringVariable();
-                            break;
-                        case "si":
-                            BuildIfStmt();
-                            break;
-                        case "fonction":
-                            BuildFunction();
-                            break;
-                    }
-                    break;
-                case TokenType.Identifier:
-                    ParseIdentifierStmt();
-                    break;
-                default:
-                    Advance();
-                    break;
-            }
-        }
-
-        void BuildNumberVariable()
+        Node<double> ParseMulDiv()
         {
 
-        }
-
-        AssignNode<string> BuildStringVariable()
-        {
-            string name = Expect(TokenType.Identifier).GetStrValue();
-            if (name == null)
-                AddError("Assignation : ValueError, cann");
-            StringNode value = new StringNode("");
-            if(GetToken().Type == TokenType.Equal)
-            {
-                value = new StringNode(Expect(TokenType.String).GetStrValue());
-            }
-            return new AssignNode<string>(name, value);
-        }
-
-        void BuildFunction()
-        {
-
-        }
-
-        void BuildIfStmt()
-        {
-
-        }
-
-        void BuildForStmt()
-        {
-
-        }
-
-        void BuildWhileStmt()
-        {
-
-        }
-
-        void ParseIdentifierStmt()
-        {
-            while(GetToken().Type != TokenType.RTL) { Advance(); }
-        }
-
-        ValueNode<T> ParseExpression<T>()
-        {
-            
             return null;
         }
 
+        Node<double> ParseUnary()
+        {
+            if(GetToken().Type == TokenType.Plus)
+            {
+                Advance();
+                return ParseUnary();
+            }
+
+            if(GetToken().Type == TokenType.Minus)
+            {
+                Advance();
+                return new UnaryOpNode<double>(ParseUnary(), (a) => -a);
+            }
+
+            return ParseNumber();
+        }
+
+        Node<double> ParseNumber()
+        {
+            if (GetToken().Type == TokenType.Number)
+            {
+                ValueNode<double> node = new ValueNode<double>(GetToken().GetDoubleValue());
+                Advance();
+                return node;
+            }
+            throw new SyntaxErrorException("Unexpected token : " + GetToken());
+        }
+
+
+        #region moves
+
         Token Expect(TokenType type)
         {
-            if (GetToken().Type != type)
-                AddError($"Expected token[\"{type}\"] !");
             Token t = GetToken();
+            if (t.Type != type)
+                AddError($"Expected token[\"{type}\"] !");
             Advance();
             return t;
         }
@@ -164,5 +135,7 @@ namespace SLProject.SLCompilerLib.Parser
             else
                 return tokens[index + offset];
         }
+
+        #endregion
     }
 }

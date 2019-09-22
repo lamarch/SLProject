@@ -23,9 +23,7 @@ namespace SLProject
 
             SLCompilerLib.Lexer.Lexer lexer = new SLCompilerLib.Lexer.Lexer(keywords);
             SLCompilerLib.Parser.Parser parser = new SLCompilerLib.Parser.Parser(keywords);
-            parser.Parse( lexer.Lex(" debut programme\n" +
-                "bonjour\n" +
-                "fin\n") );
+            Console.WriteLine(parser.Parse( lexer.Lex("-5+-10++2") ).Eval());
 
 
 

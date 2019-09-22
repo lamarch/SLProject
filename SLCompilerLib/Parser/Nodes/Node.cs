@@ -4,8 +4,8 @@ using System.Text;
 
 namespace SLProject.SLCompilerLib.Parser.Nodes
 {
-    public abstract class Node<T> : BaseNode
+    public abstract class Node<T>
     {
-        public abstract new T Eval();
+        public abstract T Eval();
     }
 }
