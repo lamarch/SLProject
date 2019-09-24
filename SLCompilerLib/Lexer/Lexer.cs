@@ -30,7 +30,7 @@ namespace SLProject.SLCompilerLib.Lexer
             while(token.Type != TokenType.EOF)
             {
                 token = GetNextToken();
-                Console.WriteLine("New TOKEN found : " + token);
+                //Console.WriteLine("New TOKEN found : " + token);
                 ret.Add(token);
             }
 

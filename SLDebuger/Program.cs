@@ -13,7 +13,7 @@ namespace SLProject
             List<string> keywords = new List<string>();
 
             SLCompilerLib.Lexer.Lexer lexer = new SLCompilerLib.Lexer.Lexer(keywords);
-            SLCompilerLib.Parser.Parser parser = new SLCompilerLib.Parser.Parser(keywords);
+            SLCompilerLib.Parser.Parser parser = new SLCompilerLib.Parser.Parser(keywords, new SLCompilerLib.Parser.ReflectionContext(new SLCompilerLib.Parser.DefaultContext()));
             string rep;
             while(true){
                 Console.WriteLine("Votre calcul :");

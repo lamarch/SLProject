@@ -13,10 +13,12 @@ namespace SLProject.SLCompilerLib.Parser
         List<string> errors;
         List<string> keywords;
         int index;
+        ReflectionContext reflectionContext;
 
-        public Parser(List<string> keywords)
+        public Parser(List<string> keywords, ReflectionContext rctx)
         {
             this.keywords = keywords;
+            this.reflectionContext = rctx;
         }
 
         public Node<double> Parse(List<Token> tokens)
@@ -28,7 +30,7 @@ namespace SLProject.SLCompilerLib.Parser
             Node<double> root = ParseAddSub();
 
             if (GetToken().Type != TokenType.EOF)
-                throw new SyntaxErrorException("EOF token expected !");
+                ThrowException(ExceptionType.TokenExpected, "EOF expected !");
 
             for (int i = 0; i < errors.Count; i++)
             {
@@ -77,24 +79,12 @@ namespace SLProject.SLCompilerLib.Parser
                 }else{
                     return left;
                 }
+
                 Advance();
 
                 var right = ParseUnary();
                 left = new BinaryNode<double>(left, right, op);
             }
-        }
-
-        Node<double> ParseParentheses(){
-            var left = ParseAddSub();
-            if(GetToken().Type == TokenType.LPar){
-                return ParseParentheses();
-            }
-            Advance();
-
-            ParseParentheses();
-
-
-            return null;
         }
 
         Node<double> ParseUnary()
@@ -116,13 +106,28 @@ namespace SLProject.SLCompilerLib.Parser
 
         Node<double> ParseNumber()
         {
+            if(GetToken().Type == TokenType.LPar){
+                Advance();
+                var node = ParseAddSub();
+                if(GetToken().Type != TokenType.RPar){
+                    ThrowException(ExceptionType.TokenExpected, "Close parentethis expected !");
+                }
+                Advance();
+                return node;
+            }
             if (GetToken().Type == TokenType.Number)
             {
                 ValueNode<double> node = new ValueNode<double>(GetToken().GetDoubleValue());
                 Advance();
                 return node;
             }
-            throw new SyntaxErrorException("Unexpected token : " + GetToken());
+            if (GetToken().Type == TokenType.Identifier){
+                ValueNode<double> node = new ValueNode<double>(reflectionContext.ResolveVariable(GetToken().GetStrValue()));
+                Advance();
+                return node;
+            }
+            ThrowException(ExceptionType.TokenExpected, "Number is required after an operation !");
+            return null;
         }
 
 
@@ -146,6 +151,18 @@ namespace SLProject.SLCompilerLib.Parser
             return t;
         }
 
+        void ThrowException(ExceptionType type, string message){
+            if(type == ExceptionType.TokenExpected){
+                throw new Exception("Token Expected Exception : " + message);
+            }else if(type == ExceptionType.TokenUnexcpected){
+                throw new Exception("Token Unexpected Exception : " + message);
+            }else if(type == ExceptionType.ValueError){
+                throw new Exception("Value Error Expected : " + message);
+            }else{
+                throw new Exception("Unknown Exception : " + message);
+            }
+        }
+
         void AddError(string message)
         {
             errors.Add(message);
@@ -163,6 +180,13 @@ namespace SLProject.SLCompilerLib.Parser
                 return new Token(TokenType.EOF);
             else
                 return tokens[index + offset];
+        }
+
+        enum ExceptionType{
+            TokenExpected,
+            TokenUnexcpected,
+            ValueError,
+            Unknown
         }
 
         #endregion
