@@ -18,7 +18,7 @@ namespace SLProject.SLCompilerLib
             this.keywords = keywords;
         }
 
-        public Compiler(List<string> keywords, object context) : this(keywords, new Parser.ReflectionContext(context)){}
+        public Compiler(List<string> keywords, object context) : this(keywords, new Parser.ReflectionContext(context, "test.txt")){}
 
         public Compiler(List<string> keywords) : this(keywords, new Parser.DefaultContext()){}
 

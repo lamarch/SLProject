@@ -25,6 +25,16 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "SLProject.SLStandardLib/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/SLProject.SLStandardLib.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SLProject.SLStandardLib.dll": {}
+        }
       }
     }
   },
@@ -171,11 +181,17 @@
         "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "SLProject.SLStandardLib/1.0.0": {
+      "type": "project",
+      "path": "../SLStandardLib/SLStandardLib.csproj",
+      "msbuildProject": "../SLStandardLib/SLStandardLib.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "NETStandard.Library >= 2.0.3"
+      "NETStandard.Library >= 2.0.3",
+      "SLProject.SLStandardLib >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -185,11 +201,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
-      "projectName": "SLProject.SLStandardLib",
-      "projectPath": "c:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
+      "projectUniqueName": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj",
+      "projectName": "SLProject.SLCompilerLib",
+      "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj",
       "packagesPath": "C:\\Users\\Elève\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\obj\\",
+      "outputPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -205,7 +221,11 @@
       },
       "frameworks": {
         "netstandard2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {
+              "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

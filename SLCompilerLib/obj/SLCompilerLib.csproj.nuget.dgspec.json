@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLDebuger\\SLDebuger.csproj": {}
+    "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj": {}
   },
   "projects": {
     "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj": {
@@ -47,63 +47,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.0.3, )",
-              "autoReferenced": true
-            }
-          },
-          "imports": [
-            "net461"
-          ],
-          "assetTargetFallback": true,
-          "warn": true
-        }
-      }
-    },
-    "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLDebuger\\SLDebuger.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLDebuger\\SLDebuger.csproj",
-        "projectName": "SLProject.SLDebuger",
-        "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLDebuger\\SLDebuger.csproj",
-        "packagesPath": "C:\\Users\\Elève\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLDebuger\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Elève\\AppData\\Roaming\\NuGet\\NuGet.Config"
-        ],
-        "originalTargetFrameworks": [
-          "netcoreapp2.2"
-        ],
-        "sources": {
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "netcoreapp2.2": {
-            "projectReferences": {
-              "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj": {
-                "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj"
-              },
-              "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {
-                "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "netcoreapp2.2": {
-          "dependencies": {
-            "Microsoft.NETCore.App": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.2.0, )",
               "autoReferenced": true
             }
           },
