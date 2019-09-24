@@ -1,7 +1,7 @@
 using System;
 
 namespace SLProject.SLCompilerLib.Parser{
-    public class ReflectionContext{
+    public class ReflectionContext : IReflectionContext{
         object context;
 
         public ReflectionContext(object context){

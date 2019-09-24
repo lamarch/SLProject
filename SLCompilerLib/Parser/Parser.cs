@@ -13,12 +13,12 @@ namespace SLProject.SLCompilerLib.Parser
         List<string> errors;
         List<string> keywords;
         int index;
-        ReflectionContext reflectionContext;
+        IReflectionContext reflectionContext;
 
-        public Parser(List<string> keywords, ReflectionContext rctx)
+        public Parser(List<string> keywords, IReflectionContext rctx)
         {
-            this.keywords = keywords;
             this.reflectionContext = rctx;
+            this.keywords = keywords;
         }
 
         public Node<double> Parse(List<Token> tokens)
@@ -48,9 +48,11 @@ namespace SLProject.SLCompilerLib.Parser
             while (true)
             {
                 op = null;
+                //addition
                 if(GetToken().Type == TokenType.Plus)
                 {
                     op = (a, b) => a + b;
+                //substraction
                 }else if(GetToken().Type == TokenType.Minus)
                 {
                     op = (a, b) => a - b;
@@ -71,9 +73,11 @@ namespace SLProject.SLCompilerLib.Parser
             Func<double, double, double> op = null;
 
             while(true){
+                //multiplication
                 if(GetToken().Type == TokenType.Star){
                     op = (a, b) => a * b;
                 }
+                //division
                 else if(GetToken().Type == TokenType.Slash){
                     op = (a, b) => a / b;
                 }else{
@@ -89,12 +93,14 @@ namespace SLProject.SLCompilerLib.Parser
 
         Node<double> ParseUnary()
         {
+            //unary plus
             if(GetToken().Type == TokenType.Plus)
             {
                 Advance();
                 return ParseUnary();
             }
 
+            //unary minus
             if(GetToken().Type == TokenType.Minus)
             {
                 Advance();
@@ -106,6 +112,7 @@ namespace SLProject.SLCompilerLib.Parser
 
         Node<double> ParseNumber()
         {
+            //parentethis
             if(GetToken().Type == TokenType.LPar){
                 Advance();
                 var node = ParseAddSub();
@@ -115,12 +122,14 @@ namespace SLProject.SLCompilerLib.Parser
                 Advance();
                 return node;
             }
+            //number
             if (GetToken().Type == TokenType.Number)
             {
                 ValueNode<double> node = new ValueNode<double>(GetToken().GetDoubleValue());
                 Advance();
                 return node;
             }
+            //variable
             if (GetToken().Type == TokenType.Identifier){
                 ValueNode<double> node = new ValueNode<double>(reflectionContext.ResolveVariable(GetToken().GetStrValue()));
                 Advance();
