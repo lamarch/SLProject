@@ -25,7 +25,7 @@ namespace SLProject.SLCompilerLib
         public void Compile(string code, bool debug){
             this.code = code;
             this.debug = debug;
-            Debug.debug = debug;
+            Debug.on = debug;
             Debug.Write("----------START COMPILATION----------");
             List<Lexer.Token> tokens = lexer.Lex(code);
             var res = parser.Parse(tokens);

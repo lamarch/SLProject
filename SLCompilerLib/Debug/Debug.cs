@@ -2,9 +2,11 @@ using System;
 
 namespace SLProject.SLCompilerLib{
     static class Debug{
-        public static bool debug = true;
+        public static bool on = true;
         public static ConsoleColor color = ConsoleColor.Green;
         public static void Write(string message){
+            if(!on)
+                return;
             var temp = Console.ForegroundColor;
             Console.ForegroundColor = color;
             Console.WriteLine(message);

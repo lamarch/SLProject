@@ -24,12 +24,16 @@ namespace SLProject
                 if(com.Length > 2 && com[0] == "$"){
                     switch(com[1]){
                         case "debug":
-                            if(com[2] == "0")
+                            if(com[2] == "0"){
                                 debug = false;
-                            else if(com[2] == "1")
+                                Console.WriteLine("$ debug = false");
+                            }
+                            else if(com[2] == "1"){
                                 debug = true;
+                                Console.WriteLine("$ debug = true");
+                            }
                             else
-                                Console.WriteLine($"OPTION \"debug\" doesn't accept this arg({com[2]}) !");
+                                Console.WriteLine($"OPTION \"debug\" doesn't accept this arg(\"{com[2]}\") !");
                             break;
                     }
                 }else{
