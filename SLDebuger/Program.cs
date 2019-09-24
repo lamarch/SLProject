@@ -14,16 +14,17 @@ namespace SLProject
 
             SLCompilerLib.Lexer.Lexer lexer = new SLCompilerLib.Lexer.Lexer(keywords);
             SLCompilerLib.Parser.Parser parser = new SLCompilerLib.Parser.Parser(keywords);
-            
+            string rep;
             while(true){
                 Console.WriteLine("Votre calcul :");
+                rep = Console.ReadLine();
                 try{
-                    Console.WriteLine("Resultat : " + parser.Parse( lexer.Lex("2*1")).Eval());
+                    Console.WriteLine("Calcul en cours...");
+                    Console.WriteLine("Resultat : " + parser.Parse( lexer.Lex(rep)).Eval());
                 }catch(Exception e){
                     Console.WriteLine("Une erreur est survenue :\n\t"+e.Message);
                 }
                 Console.WriteLine();
-                Console.Read();
             }
         }
     }
