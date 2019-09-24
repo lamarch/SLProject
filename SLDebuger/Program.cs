@@ -10,25 +10,21 @@ namespace SLProject
     {
         static void Main(string[] args)
         {
-            List<string> keywords = new List<string>()
-            {
-                "debut",
-                "chaine",
-                "nombre",
-                "fonction",
-                "si",
-                "alors",
-                "fin"
-            };
+            List<string> keywords = new List<string>();
 
             SLCompilerLib.Lexer.Lexer lexer = new SLCompilerLib.Lexer.Lexer(keywords);
             SLCompilerLib.Parser.Parser parser = new SLCompilerLib.Parser.Parser(keywords);
-            Console.WriteLine(parser.Parse( lexer.Lex("-5+-10++2") ).Eval());
-
-
-
-            Console.Read();
-
+            
+            while(true){
+                Console.WriteLine("Votre calcul :");
+                try{
+                    Console.WriteLine("Resultat : " + parser.Parse( lexer.Lex("2*1")).Eval());
+                }catch(Exception e){
+                    Console.WriteLine("Une erreur est survenue :\n\t"+e.Message);
+                }
+                Console.WriteLine();
+                Console.Read();
+            }
         }
     }
 }
