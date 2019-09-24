@@ -41,6 +41,7 @@ namespace SLProject.SLCompilerLib.Parser
         Node<double> ParseAddSub()
         {
             var left = ParseUnary();
+            
             Func<double, double, double> op = null;
             while (true)
             {
@@ -64,8 +65,23 @@ namespace SLProject.SLCompilerLib.Parser
 
         Node<double> ParseMulDiv()
         {
-
-            return null;
+            var left = ParseUnary();
+            Func<double, double, double> op = null;
+            
+            while(true){
+                if(GetToken(1).Type == TokenType.Star){
+                    op = (a, b) => a * b;
+                    Advance();
+                }
+                else if(GetToken(1).Type == TokenType.Slash){
+                    op = (a, b) => a / b;
+                    Advance();
+                }else{
+                    return left;
+                }
+                var right = ParseUnary();
+                left = new BinaryNode<double>(left, right, op);
+            }
         }
 
         Node<double> ParseUnary()
