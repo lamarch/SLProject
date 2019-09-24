@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SLProject;
-using SLProject.SLCompilerLib.Lexer;
-using SLProject.SLCompilerLib.Parser;
+using SLProject.SLCompilerLib;
 
 namespace SLProject
 {
@@ -12,19 +10,37 @@ namespace SLProject
         {
             List<string> keywords = new List<string>();
 
-            SLCompilerLib.Lexer.Lexer lexer = new SLCompilerLib.Lexer.Lexer(keywords);
-            SLCompilerLib.Parser.Parser parser = new SLCompilerLib.Parser.Parser(keywords, new SLCompilerLib.Parser.ReflectionContext(new SLCompilerLib.Parser.DefaultContext()));
+            Compiler compiler = new Compiler(keywords);
+
             string rep;
+            string[] com;
+            bool debug = true;
+
             while(true){
                 Console.WriteLine("Votre calcul :");
                 rep = Console.ReadLine();
-                try{
-                    Console.WriteLine("Calcul en cours...");
-                    Console.WriteLine("Resultat : " + parser.Parse( lexer.Lex(rep)).Eval());
-                }catch(Exception e){
-                    Console.WriteLine("Une erreur est survenue :\n\t"+e.Message);
+                
+                com = rep.Split(' ');
+                if(com.Length > 2 && com[0] == "$"){
+                    switch(com[1]){
+                        case "debug":
+                            if(com[2] == "0")
+                                debug = false;
+                            else if(com[2] == "1")
+                                debug = true;
+                            else
+                                Console.WriteLine($"OPTION \"debug\" doesn't accept this arg({com[2]}) !");
+                            break;
+                    }
+                }else{
+                    try{
+                        Console.WriteLine("Calcul en cours...");
+                        compiler.Compile(rep, debug);
+                    }catch(Exception e){
+                        Console.WriteLine("Une erreur est survenue :\n\t"+e.Message);
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
             }
         }
     }

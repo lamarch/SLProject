@@ -18,6 +18,7 @@ namespace SLProject.SLCompilerLib.Lexer
 
         public string GetStrValue() => (string)Value;
         public double GetDoubleValue() => (double)Value;
+        
         public override string ToString()
         {
             string ret = "TOKEN : " + Type + "; Value = ";

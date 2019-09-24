@@ -20,6 +20,8 @@ namespace SLProject.SLCompilerLib.Lexer
 
         public List<Token> Lex(string code)
         {
+            Debug.Write("-----START LEXER-----");
+
             List<Token> ret = new List<Token>();
             this.code = code;
             this.length = code.Length;
@@ -30,9 +32,10 @@ namespace SLProject.SLCompilerLib.Lexer
             while(token.Type != TokenType.EOF)
             {
                 token = GetNextToken();
-                //Console.WriteLine("New TOKEN found : " + token);
+                Debug.Write("New TOKEN found : " + token);
                 ret.Add(token);
             }
+            Debug.Write("-----END LEXER-----");
 
             return ret;
         }

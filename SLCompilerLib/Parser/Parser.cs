@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Text;
 using SLProject.SLCompilerLib.Lexer;
 using SLProject.SLCompilerLib.Parser.Nodes;
 
@@ -15,14 +13,15 @@ namespace SLProject.SLCompilerLib.Parser
         int index;
         IReflectionContext reflectionContext;
 
-        public Parser(List<string> keywords, IReflectionContext rctx)
-        {
+        public Parser(List<string> keywords, IReflectionContext rctx){
             this.reflectionContext = rctx;
             this.keywords = keywords;
         }
 
         public Node<double> Parse(List<Token> tokens)
         {
+            Debug.Write("-----START PARSER-----");
+
             index = 0;
             errors = new List<string>();
             this.tokens = tokens;
@@ -37,11 +36,14 @@ namespace SLProject.SLCompilerLib.Parser
                 Console.WriteLine("Error : " + errors[i]);
             }
 
+            Debug.Write("-----END PARSER-----");
+
             return root;
         }
 
         Node<double> ParseAddSub()
         {
+            Debug.Write("Parse ADD-SUB");
             var left = ParseMulDiv();
             
             Func<double, double, double> op = null;
@@ -69,6 +71,8 @@ namespace SLProject.SLCompilerLib.Parser
 
         Node<double> ParseMulDiv()
         {
+            Debug.Write("Parse MUL-DIV");
+
             var left = ParseUnary();
             Func<double, double, double> op = null;
 
@@ -93,6 +97,8 @@ namespace SLProject.SLCompilerLib.Parser
 
         Node<double> ParseUnary()
         {
+            Debug.Write("Parse UNARY");
+
             //unary plus
             if(GetToken().Type == TokenType.Plus)
             {
@@ -112,8 +118,11 @@ namespace SLProject.SLCompilerLib.Parser
 
         Node<double> ParseNumber()
         {
+            Debug.Write("Parse NUMBER");
             //parentethis
             if(GetToken().Type == TokenType.LPar){
+                Debug.Write("Parse PARENTETHIS");
+
                 Advance();
                 var node = ParseAddSub();
                 if(GetToken().Type != TokenType.RPar){
@@ -131,8 +140,12 @@ namespace SLProject.SLCompilerLib.Parser
             }
             //variable
             if (GetToken().Type == TokenType.Identifier){
+                Debug.Write("Parse IDENTIFIER");
+
                 ValueNode<double> node = new ValueNode<double>(reflectionContext.ResolveVariable(GetToken().GetStrValue()));
+                Debug.Write($"Variable \"{GetToken().GetStrValue()}\" = {node.Eval()}");
                 Advance();
+
                 return node;
             }
             ThrowException(ExceptionType.TokenExpected, "Number is required after an operation !");

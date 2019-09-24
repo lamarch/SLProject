@@ -13,7 +13,6 @@ namespace SLProject.SLCompilerLib.Parser{
             if(prop == null)
                 throw new Exception($"Unknown variable named \"{name}\" !");
             var value = (double)prop.GetValue(context);
-            Console.WriteLine("VARIABLE \"{name}\" with value : {value}");
             return value;
         }
     }
