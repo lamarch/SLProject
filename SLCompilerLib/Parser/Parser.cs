@@ -84,6 +84,19 @@ namespace SLProject.SLCompilerLib.Parser
             }
         }
 
+        Node<double> ParseParentheses(){
+            var left = ParseAddSub();
+            if(GetToken().Type == TokenType.LPar){
+                return ParseParentheses();
+            }
+            Advance();
+
+            ParseParentheses();
+
+
+            return null;
+        }
+
         Node<double> ParseUnary()
         {
             if(GetToken().Type == TokenType.Plus)
