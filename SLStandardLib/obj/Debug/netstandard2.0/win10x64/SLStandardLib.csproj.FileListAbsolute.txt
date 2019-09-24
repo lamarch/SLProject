@@ -1,0 +1,9 @@
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\bin\Debug\netstandard2.0\win10x64\SLProject.SLStandardLib.deps.json
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\bin\Debug\netstandard2.0\win10x64\SLProject.SLStandardLib.dll
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\bin\Debug\netstandard2.0\win10x64\SLProject.SLStandardLib.pdb
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\obj\Debug\netstandard2.0\win10x64\SLStandardLib.csprojAssemblyReference.cache
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\obj\Debug\netstandard2.0\win10x64\SLStandardLib.csproj.CoreCompileInputs.cache
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\obj\Debug\netstandard2.0\win10x64\SLStandardLib.AssemblyInfoInputs.cache
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\obj\Debug\netstandard2.0\win10x64\SLStandardLib.AssemblyInfo.cs
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\obj\Debug\netstandard2.0\win10x64\SLProject.SLStandardLib.dll
+C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLStandardLib\obj\Debug\netstandard2.0\win10x64\SLProject.SLStandardLib.pdb

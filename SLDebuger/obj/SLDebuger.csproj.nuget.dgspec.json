@@ -56,6 +56,11 @@
           "assetTargetFallback": true,
           "warn": true
         }
+      },
+      "runtimes": {
+        "win10-x64": {
+          "#import": []
+        }
       }
     },
     "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLDebuger\\SLDebuger.csproj": {
@@ -103,7 +108,7 @@
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[2.2.0, )",
+              "version": "[2.2.7, )",
               "autoReferenced": true
             }
           },
@@ -112,6 +117,11 @@
           ],
           "assetTargetFallback": true,
           "warn": true
+        }
+      },
+      "runtimes": {
+        "win10-x64": {
+          "#import": []
         }
       }
     },
@@ -162,6 +172,11 @@
           ],
           "assetTargetFallback": true,
           "warn": true
+        }
+      },
+      "runtimes": {
+        "win10-x64": {
+          "#import": []
         }
       }
     }

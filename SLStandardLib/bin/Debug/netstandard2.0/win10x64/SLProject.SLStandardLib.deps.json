@@ -1,19 +1,18 @@
 {
   "runtimeTarget": {
-    "name": ".NETStandard,Version=v2.0/",
+    "name": ".NETStandard,Version=v2.0/win10x64",
     "signature": "cfe1dc2a80602aef150a12815387068463a61a0d"
   },
   "compilationOptions": {},
   "targets": {
     ".NETStandard,Version=v2.0": {},
-    ".NETStandard,Version=v2.0/": {
-      "SLProject.SLCompilerLib/1.0.0": {
+    ".NETStandard,Version=v2.0/win10x64": {
+      "SLProject.SLStandardLib/1.0.0": {
         "dependencies": {
-          "NETStandard.Library": "2.0.3",
-          "SLProject.SLStandardLib": "1.0.0"
+          "NETStandard.Library": "2.0.3"
         },
         "runtime": {
-          "SLProject.SLCompilerLib.dll": {}
+          "SLProject.SLStandardLib.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -21,16 +20,11 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
-      },
-      "SLProject.SLStandardLib/1.0.0": {
-        "runtime": {
-          "SLProject.SLStandardLib.dll": {}
-        }
       }
     }
   },
   "libraries": {
-    "SLProject.SLCompilerLib/1.0.0": {
+    "SLProject.SLStandardLib/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -48,11 +42,6 @@
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
-    },
-    "SLProject.SLStandardLib/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }
