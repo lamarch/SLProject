@@ -185,11 +185,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
+      "projectUniqueName": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
       "projectName": "SLProject.SLStandardLib",
-      "projectPath": "c:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
+      "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
       "packagesPath": "C:\\Users\\Elève\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\obj\\",
+      "outputPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -225,10 +225,16 @@
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

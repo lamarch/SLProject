@@ -6,15 +6,15 @@ namespace SLProject.SLCompilerLib.Parser.Nodes
 {
     public class NumberNode
     {
-        private double value;
+        protected double value;
         public NumberNode(double value)
         {
             this.value = value;
 
         }
 
-        public 
-
-        public double Value { get => value; set => this.value = value; }
+        public virtual double Eval(){
+            return value;
+        }
     }
 }

@@ -4,7 +4,6 @@ C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\bin\Debug\netstandard2.0\SLProject.SLStandardLib.dll
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\bin\Debug\netstandard2.0\SLProject.SLStandardLib.pdb
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.csprojAssemblyReference.cache
-C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.csproj.CoreCompileInputs.cache
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.AssemblyInfoInputs.cache
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.AssemblyInfo.cs
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.csproj.CopyComplete

@@ -18,7 +18,7 @@ namespace SLProject.SLCompilerLib.Parser
             this.keywords = keywords;
         }
 
-        public Node<double> Parse(List<Token> tokens)
+        public NumberNode Parse(List<Token> tokens)
         {
             Debug.Write("-----START PARSER-----\n");
 
@@ -26,10 +26,10 @@ namespace SLProject.SLCompilerLib.Parser
             errors = new List<string>();
             this.tokens = tokens;
 
-            Node<double> root = ParseExpression();
+            NumberNode root = ParseExpression();
 
             if (GetToken().Type != TokenType.EOF)
-                ThrowException(ExceptionType.TokenExpected, "EOF expected !");
+                ThrowException(ExceptionType.TokenExpected, "EOF expected !", "PARSER_parse_32");
 
             for (int i = 0; i < errors.Count; i++)
             {
@@ -41,19 +41,39 @@ namespace SLProject.SLCompilerLib.Parser
             return root;
         }
 
-        Node<double> ParseExpression()
+        List<ImportNode> ParseImport(){
+            while(IsKeyword("importer")){
+                Advance();
+                if()
+            }
+        }
+
+        void ParseBody(){
+
+        }
+
+        void ParseModule(){
+
+        }
+
+        void ParseFunction(){
+
+        }
+
+        void ParseMain(){
+
+        }
+
+        NumberNode ParseExpression()
         {
             Debug.StartTree("Parse EXPRESSION");
 
             var expr = ParseAddSub();
-            if(GetToken().Type != TokenType.RTL){
-                ThrowException(ExceptionType.TokenExpected, "RTL token expected !");
-            }
             Debug.EndTree("Parse EXPRESSION");
             return expr;
         }
 
-        Node<double> ParseAddSub(){
+        NumberNode ParseAddSub(){
             Debug.StartTree("Parse EXPRESSION");
 
             var left = ParseMulDiv();
@@ -84,13 +104,13 @@ namespace SLProject.SLCompilerLib.Parser
 
                 Advance();
                 var right = ParseMulDiv();
-                left = new BinaryNode<double>(left, right, op);
+                left = new ExpressionNode(op, left, right);
             }
             Debug.EndTree("Parse EXPRESSION");
             return left;
         }
 
-        Node<double> ParseMulDiv()
+        NumberNode ParseMulDiv()
         {
             Debug.StartTree("Parse MUL-DIV");
 
@@ -120,7 +140,7 @@ namespace SLProject.SLCompilerLib.Parser
                 Advance();
 
                 var right = ParseUnary();
-                left = new BinaryNode<double>(left, right, op);
+                left = new ExpressionNode(op, left, right);
             }
             
             Debug.EndTree("Parse MUL-DIV");
@@ -128,7 +148,7 @@ namespace SLProject.SLCompilerLib.Parser
             return left;
         }
 
-        Node<double> ParseUnary()
+        NumberNode ParseUnary()
         {
             Debug.StartTree("Parse UNARY");
 
@@ -147,7 +167,7 @@ namespace SLProject.SLCompilerLib.Parser
             if(GetToken().Type == TokenType.Minus)
             {
                 Advance();
-                var n = new UnaryOpNode<double>(ParseUnary(), (a) => -a);
+                var n = new ExpressionNode(a => -a, ParseUnary());
                 Debug.EndTree("Parse UNARY");
 
                 return n;
@@ -160,7 +180,7 @@ namespace SLProject.SLCompilerLib.Parser
             return leaf;
         }
 
-        Node<double> ParseLeaf()
+        NumberNode ParseLeaf()
         {
             Debug.StartTree("Parse LEAF");
 
@@ -172,7 +192,7 @@ namespace SLProject.SLCompilerLib.Parser
                 Advance();
                 var node = ParseExpression();
                 if(GetToken().Type != TokenType.RPar){
-                    ThrowException(ExceptionType.TokenExpected, "Close parentethis expected !");
+                    ThrowException(ExceptionType.TokenExpected, "Close parentethis expected !", "PARSER_parseleaf_172");
                 }
                 Advance();
 
@@ -187,7 +207,7 @@ namespace SLProject.SLCompilerLib.Parser
             {
                 Debug.WriteTree("Parse Number");
 
-                ValueNode<double> node = new ValueNode<double>(GetToken().GetDoubleValue());
+                NumberNode node = new NumberNode(GetToken().GetDoubleValue());
                 Advance();
 
                 Debug.EndTree("Parse LEAF");
@@ -201,7 +221,7 @@ namespace SLProject.SLCompilerLib.Parser
                 Debug.WriteTree("Parse Identifier");
 
                 
-                ValueNode<double> node = new ValueNode<double>(reflectionContext.ResolveVariable(GetToken().GetStrValue()));
+                NumberNode node = new NumberNode(reflectionContext.ResolveVariable(GetToken().GetStrValue()));
                 Debug.Write($"Variable \"{GetToken().GetStrValue()}\" = {node.Eval()}");
                 Advance();
 
@@ -210,7 +230,7 @@ namespace SLProject.SLCompilerLib.Parser
                 return node;
             }
 
-            ThrowException(ExceptionType.TokenExpected, "Number is required after an operation !");
+            ThrowException(ExceptionType.TokenExpected, "Number is required !", "PARSER_parseleaf_210");
             
             Debug.EndTree("Parse LEAF");
 
@@ -220,39 +240,26 @@ namespace SLProject.SLCompilerLib.Parser
 
         #region moves
 
-        Token Expect(TokenType type)
-        {
-            Token t = GetToken();
-            if (t.Type != type)
-                AddError($"Expected token[\"{type}\"] !");
-            Advance();
-            return t;
-        }
-
-        Token ExpectKeyword(string value)
-        {
-            if(GetToken().Type != TokenType.Keyword || (string)GetToken().Value != value)
-                AddError($"Expected keyword[\"{value}\"] !");
-            Token t = GetToken();
-            Advance();
-            return t;
-        }
-
-        void ThrowException(ExceptionType type, string message){
+        public static void ThrowException(ExceptionType type, string message, string code){
             if(type == ExceptionType.TokenExpected){
-                throw new Exception("Token Expected Exception : " + message);
+                throw new Exception("Token Expected Exception ["+code+"] : " + message);
             }else if(type == ExceptionType.TokenUnexcpected){
-                throw new Exception("Token Unexpected Exception : " + message);
+                throw new Exception("Token Unexpected Exception ["+code+"] : " + message);
             }else if(type == ExceptionType.ValueError){
-                throw new Exception("Value Error Expected : " + message);
+                throw new Exception("Value Error Exception ["+code+"] : " + message);
+            }else if(type == ExceptionType.UnknownIdentifier){
+                throw new Exception("Unknown Identifier Error Exception ["+code+"] : " + message);
             }else{
-                throw new Exception("Unknown Exception : " + message);
+                throw new Exception("Unknown Exception ["+code+"] : " + message);
             }
         }
 
-        void AddError(string message)
-        {
-            errors.Add(message);
+        bool IsKeyword(string name){
+            return GetToken().Type == TokenType.Keyword && GetToken().GetStrValue() == name;
+        }
+
+        bool IsIdent(){
+            return GetToken().Type == TokenType.Identifier;
         }
 
         Token Advance(int step = 1)
@@ -269,11 +276,12 @@ namespace SLProject.SLCompilerLib.Parser
                 return tokens[index + offset];
         }
 
-        enum ExceptionType{
+        public enum ExceptionType{
+            Unknown,
             TokenExpected,
             TokenUnexcpected,
             ValueError,
-            Unknown
+            UnknownIdentifier
         }
 
         #endregion

@@ -24,7 +24,8 @@ namespace SLProject.SLCompilerLib.Parser{
             if(variables.ContainsKey(name))
                 return variables[name];
             else
-                throw new Exception($"Unknown variable named \"{name}\" !");
+                Parser.ThrowException(Parser.ExceptionType.UnknownIdentifier, "No variable named \""+name+"\" !", "REFLECTIONCONTEXT_resolvevariable_27");
+            return 0;
         }
 
         public void SetVariable(string name, double value){
@@ -37,6 +38,10 @@ namespace SLProject.SLCompilerLib.Parser{
         public void DelVariable(string name){
             if(variables.ContainsKey(name))
                 variables.Remove(name);
+        }
+
+        public double ResolveFunction(string name, params object[] pm){
+            return 0;
         }
 
     }
