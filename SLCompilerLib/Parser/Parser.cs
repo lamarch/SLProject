@@ -20,13 +20,13 @@ namespace SLProject.SLCompilerLib.Parser
 
         public Node<double> Parse(List<Token> tokens)
         {
-            Debug.Write("-----START PARSER-----");
+            Debug.Write("-----START PARSER-----\n");
 
             index = 0;
             errors = new List<string>();
             this.tokens = tokens;
 
-            Node<double> root = ParseAddSub();
+            Node<double> root = ParseExpression();
 
             if (GetToken().Type != TokenType.EOF)
                 ThrowException(ExceptionType.TokenExpected, "EOF expected !");
@@ -36,14 +36,26 @@ namespace SLProject.SLCompilerLib.Parser
                 Console.WriteLine("Error : " + errors[i]);
             }
 
-            Debug.Write("-----END PARSER-----");
+            Debug.Write("\n-----END PARSER-----\n");
 
             return root;
         }
 
-        Node<double> ParseAddSub()
+        Node<double> ParseExpression()
         {
-            Debug.Write("Parse ADD-SUB");
+            Debug.StartTree("Parse EXPRESSION");
+
+            var expr = ParseAddSub();
+            if(GetToken().Type != TokenType.RTL){
+                ThrowException(ExceptionType.TokenExpected, "RTL token expected !");
+            }
+            Debug.EndTree("Parse EXPRESSION");
+            return expr;
+        }
+
+        Node<double> ParseAddSub(){
+            Debug.StartTree("Parse EXPRESSION");
+
             var left = ParseMulDiv();
             
             Func<double, double, double> op = null;
@@ -54,24 +66,34 @@ namespace SLProject.SLCompilerLib.Parser
                 if(GetToken().Type == TokenType.Plus)
                 {
                     op = (a, b) => a + b;
+                }
                 //substraction
-                }else if(GetToken().Type == TokenType.Minus)
+                else if(GetToken().Type == TokenType.Minus)
                 {
                     op = (a, b) => a - b;
                 }
-
-                if (op == null)
-                    return left;
+                //RTL
+                else if(GetToken().Type == TokenType.RTL){
+                    Advance();
+                    continue;
+                }
+                //Error
+                else{
+                    break;
+                }
 
                 Advance();
                 var right = ParseMulDiv();
                 left = new BinaryNode<double>(left, right, op);
             }
+            Debug.EndTree("Parse EXPRESSION");
+            return left;
         }
 
         Node<double> ParseMulDiv()
         {
-            Debug.Write("Parse MUL-DIV");
+            Debug.StartTree("Parse MUL-DIV");
+
 
             var left = ParseUnary();
             Func<double, double, double> op = null;
@@ -84,8 +106,15 @@ namespace SLProject.SLCompilerLib.Parser
                 //division
                 else if(GetToken().Type == TokenType.Slash){
                     op = (a, b) => a / b;
-                }else{
-                    return left;
+                }
+                //RTL
+                else if(GetToken().Type == TokenType.RTL){
+                    Advance();
+                    continue;
+                }
+                //Error
+                else{
+                    break;
                 }
 
                 Advance();
@@ -93,62 +122,98 @@ namespace SLProject.SLCompilerLib.Parser
                 var right = ParseUnary();
                 left = new BinaryNode<double>(left, right, op);
             }
+            
+            Debug.EndTree("Parse MUL-DIV");
+
+            return left;
         }
 
         Node<double> ParseUnary()
         {
-            Debug.Write("Parse UNARY");
+            Debug.StartTree("Parse UNARY");
 
             //unary plus
             if(GetToken().Type == TokenType.Plus)
             {
                 Advance();
-                return ParseUnary();
+                var n = ParseUnary();
+
+                Debug.EndTree("Parse UNARY");
+
+                return n;
             }
 
             //unary minus
             if(GetToken().Type == TokenType.Minus)
             {
                 Advance();
-                return new UnaryOpNode<double>(ParseUnary(), (a) => -a);
+                var n = new UnaryOpNode<double>(ParseUnary(), (a) => -a);
+                Debug.EndTree("Parse UNARY");
+
+                return n;
             }
 
-            return ParseNumber();
+            var leaf = ParseLeaf();
+
+            Debug.EndTree("Parse UNARY");
+
+            return leaf;
         }
 
-        Node<double> ParseNumber()
+        Node<double> ParseLeaf()
         {
-            Debug.Write("Parse NUMBER");
+            Debug.StartTree("Parse LEAF");
+
+
             //parentethis
             if(GetToken().Type == TokenType.LPar){
-                Debug.Write("Parse PARENTETHIS");
+                Debug.WriteTree("Parse Parentethis");
 
                 Advance();
-                var node = ParseAddSub();
+                var node = ParseExpression();
                 if(GetToken().Type != TokenType.RPar){
                     ThrowException(ExceptionType.TokenExpected, "Close parentethis expected !");
                 }
                 Advance();
+
+                Debug.EndTree("Parse LEAF");
+
                 return node;
             }
+
+
             //number
             if (GetToken().Type == TokenType.Number)
             {
+                Debug.WriteTree("Parse Number");
+
                 ValueNode<double> node = new ValueNode<double>(GetToken().GetDoubleValue());
                 Advance();
+
+                Debug.EndTree("Parse LEAF");
+
                 return node;
             }
+
+
             //variable
             if (GetToken().Type == TokenType.Identifier){
-                Debug.Write("Parse IDENTIFIER");
+                Debug.WriteTree("Parse Identifier");
 
+                
                 ValueNode<double> node = new ValueNode<double>(reflectionContext.ResolveVariable(GetToken().GetStrValue()));
                 Debug.Write($"Variable \"{GetToken().GetStrValue()}\" = {node.Eval()}");
                 Advance();
 
+                Debug.EndTree("Parse LEAF");
+
                 return node;
             }
+
             ThrowException(ExceptionType.TokenExpected, "Number is required after an operation !");
+            
+            Debug.EndTree("Parse LEAF");
+
             return null;
         }
 

@@ -8,7 +8,14 @@ namespace SLProject
     {
         static void Main(string[] args)
         {
-            List<string> keywords = new List<string>();
+            List<string> keywords = new List<string>(){
+                "function",
+                "module",
+                "programme",
+                "si",
+                "fin",
+                "importer"
+            };
 
             Compiler compiler = new Compiler(keywords);
 
@@ -21,7 +28,7 @@ namespace SLProject
                 rep = Console.ReadLine();
                 
                 com = rep.Split(' ');
-                if(com.Length > 2 && com[0] == "$"){
+                if(com.Length > 1 && com[0] == "$"){
                     switch(com[1]){
                         case "debug":
                             if(com[2] == "0"){
@@ -35,6 +42,13 @@ namespace SLProject
                             else
                                 Console.WriteLine($"OPTION \"debug\" doesn't accept this arg(\"{com[2]}\") !");
                             break;
+                        case "quit":
+                            Environment.Exit(0);
+                            break;
+                        default:
+                            Console.WriteLine($"OPTION \"{com[1]}\" doesn't exist !");
+                            break;
+
                     }
                 }else{
                     try{

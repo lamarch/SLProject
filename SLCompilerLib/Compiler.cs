@@ -18,7 +18,7 @@ namespace SLProject.SLCompilerLib
             this.keywords = keywords;
         }
 
-        public Compiler(List<string> keywords, object context) : this(keywords, new Parser.ReflectionContext(context, "test.txt")){}
+        public Compiler(List<string> keywords, object context) : this(keywords, new Parser.ReflectionContext(context)){}
 
         public Compiler(List<string> keywords) : this(keywords, new Parser.DefaultContext()){}
 
@@ -26,11 +26,12 @@ namespace SLProject.SLCompilerLib
             this.code = code;
             this.debug = debug;
             Debug.on = debug;
-            Debug.Write("----------START COMPILATION----------");
+            Debug.Init();
+            Debug.Write("----------START COMPILATION----------\n");
             List<Lexer.Token> tokens = lexer.Lex(code);
             var res = parser.Parse(tokens);
             Console.WriteLine("Result : " + res.Eval());
-            Debug.Write("----------END COMPILATION----------");
+            Debug.Write("\n----------END COMPILATION----------\n");
             
         }
     }

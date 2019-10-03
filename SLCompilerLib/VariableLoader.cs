@@ -5,5 +5,8 @@ using System.Collections.Generic;
 
 namespace SLProject.SLCompilerLib{
     static class VariableLoader{
+        public static void Test(){
+            //var t = 9*();
+        }
     }
 }

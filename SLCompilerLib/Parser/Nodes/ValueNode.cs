@@ -18,4 +18,15 @@ namespace SLProject.SLCompilerLib.Parser.Nodes
             return value;
         }
     }
+
+    class ValueNode_<T>{
+        protected T value;
+        public ValueNode_(T value){
+            this.value = value;
+        }
+
+        public T GetValue(){
+            return value;
+        }
+    }
 }

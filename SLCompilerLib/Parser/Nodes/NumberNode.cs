@@ -4,10 +4,17 @@ using System.Text;
 
 namespace SLProject.SLCompilerLib.Parser.Nodes
 {
-    public class NumberNode : ValueNode<double>
+    public class NumberNode
     {
-        public NumberNode(double value) : base(value)
+        private double value;
+        public NumberNode(double value)
         {
+            this.value = value;
+
         }
+
+        public 
+
+        public double Value { get => value; set => this.value = value; }
     }
 }

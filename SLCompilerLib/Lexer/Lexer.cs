@@ -20,7 +20,7 @@ namespace SLProject.SLCompilerLib.Lexer
 
         public List<Token> Lex(string code)
         {
-            Debug.Write("-----START LEXER-----");
+            Debug.Write("-----START LEXER-----\n");
 
             List<Token> ret = new List<Token>();
             this.code = code;
@@ -35,7 +35,7 @@ namespace SLProject.SLCompilerLib.Lexer
                 Debug.Write("New TOKEN found : " + token);
                 ret.Add(token);
             }
-            Debug.Write("-----END LEXER-----");
+            Debug.Write("\n-----END LEXER-----\n");
 
             return ret;
         }
@@ -258,7 +258,7 @@ namespace SLProject.SLCompilerLib.Lexer
                 case '=':
                     if(PeekChar(1) == '=')
                     {
-                        type = TokenType.EqualEqual;
+                        type = TokenType.Equal;
                         Advance(2);
                     }
                     else
