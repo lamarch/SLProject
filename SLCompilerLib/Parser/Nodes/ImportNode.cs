@@ -9,11 +9,11 @@ namespace SLProject.SLCompilerLib.Parser.Nodes{
         }
 
         public ImportType importType;
-        public string[] accessors;
+        public Accessor accessor;
 
-        public ImportNode(ImportType type, params string[] accessors){
+        public ImportNode(ImportType type, Accessor accessor){
             this.importType = type;
-            this.accessors = accessors;
+            this.accessor = accessor;
         }
     }
 }

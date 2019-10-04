@@ -8,16 +8,7 @@ namespace SLProject
     {
         static void Main(string[] args)
         {
-            List<string> keywords = new List<string>(){
-                "function",
-                "module",
-                "programme",
-                "si",
-                "fin",
-                "importer"
-            };
-
-            Compiler compiler = new Compiler(keywords);
+            Compiler compiler = new Compiler();
 
             string rep;
             string[] com;

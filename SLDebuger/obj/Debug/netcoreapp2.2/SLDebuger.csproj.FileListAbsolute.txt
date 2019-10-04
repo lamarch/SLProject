@@ -19,7 +19,6 @@ C:\Users\Xavier\source\repos\SLProject\SLDebuger\bin\Debug\netcoreapp2.2\SLProje
 C:\Users\Xavier\source\repos\SLProject\SLDebuger\bin\Debug\netcoreapp2.2\SLProject.SLCompilerLib.pdb
 C:\Users\Xavier\source\repos\SLProject\SLDebuger\bin\Debug\netcoreapp2.2\SLProject.SLStandardLib.pdb
 C:\Users\Xavier\source\repos\SLProject\SLDebuger\obj\Debug\netcoreapp2.2\SLDebuger.csprojAssemblyReference.cache
-C:\Users\Xavier\source\repos\SLProject\SLDebuger\obj\Debug\netcoreapp2.2\SLDebuger.csproj.CoreCompileInputs.cache
 C:\Users\Xavier\source\repos\SLProject\SLDebuger\obj\Debug\netcoreapp2.2\SLDebuger.AssemblyInfoInputs.cache
 C:\Users\Xavier\source\repos\SLProject\SLDebuger\obj\Debug\netcoreapp2.2\SLDebuger.AssemblyInfo.cs
 C:\Users\Xavier\source\repos\SLProject\SLDebuger\obj\Debug\netcoreapp2.2\SLDebuger.csproj.CopyComplete

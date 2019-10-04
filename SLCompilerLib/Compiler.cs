@@ -12,15 +12,15 @@ namespace SLProject.SLCompilerLib
         Lexer.Lexer lexer;
         List<string> keywords;
 
-        public Compiler(List<string> keywords, Parser.ReflectionContext reflectionContext){
+
+        public Compiler(List<string> keywords){
             this.lexer = new Lexer.Lexer(keywords);
-            this.parser = new Parser.Parser(keywords, reflectionContext);
+            this.parser = new Parser.Parser(keywords);
             this.keywords = keywords;
         }
-
-        public Compiler(List<string> keywords, object context) : this(keywords, new Parser.ReflectionContext(context)){}
-
-        public Compiler(List<string> keywords) : this(keywords, new Parser.DefaultContext()){}
+        public Compiler() : this(def_keywords)
+        {
+        }
 
         public void Compile(string code, bool debug){
             this.code = code;
@@ -34,5 +34,15 @@ namespace SLProject.SLCompilerLib
             Debug.Write("\n----------END COMPILATION----------\n");
             
         }
+
+        public static readonly List<string> def_keywords = new List<string>()
+        {
+                "function",
+                "module",
+                "programme",
+                "si",
+                "fin",
+                "importer"
+        };
     }
 }

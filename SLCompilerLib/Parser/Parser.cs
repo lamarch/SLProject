@@ -11,10 +11,8 @@ namespace SLProject.SLCompilerLib.Parser
         List<string> errors;
         List<string> keywords;
         int index;
-        IReflectionContext reflectionContext;
 
-        public Parser(List<string> keywords, IReflectionContext rctx){
-            this.reflectionContext = rctx;
+        public Parser(List<string> keywords){
             this.keywords = keywords;
         }
 
@@ -26,6 +24,7 @@ namespace SLProject.SLCompilerLib.Parser
             errors = new List<string>();
             this.tokens = tokens;
 
+            ParseImport();
             NumberNode root = ParseExpression();
 
             if (GetToken().Type != TokenType.EOF)
@@ -42,10 +41,22 @@ namespace SLProject.SLCompilerLib.Parser
         }
 
         List<ImportNode> ParseImport(){
+            Debug.StartBranch("Parse IMPORTS");
+            List<ImportNode> imports = new List<ImportNode>();
+            Accessor accessor = null;
             while(IsKeyword("importer")){
                 Advance();
-                if()
+                if (!IsIdent())
+                {
+                    ThrowException(ExceptionType.TokenExpected, "Identifier expected after \"importer\" keyword !", "PARSER_parseimport_49");
+                }
+                accessor = GetAccessor();
+                Debug.WriteBranch("IMPORT found (\""+ accessor +"\") !");
+
+                imports.Add(new ImportNode(ImportNode.ImportType.Undefined, accessor));
             }
+            Debug.EndBranch();
+            return imports;
         }
 
         void ParseBody(){
@@ -66,15 +77,15 @@ namespace SLProject.SLCompilerLib.Parser
 
         NumberNode ParseExpression()
         {
-            Debug.StartTree("Parse EXPRESSION");
+            Debug.StartBranch("Parse EXPRESSION");
 
             var expr = ParseAddSub();
-            Debug.EndTree("Parse EXPRESSION");
+            Debug.EndBranch();
             return expr;
         }
 
         NumberNode ParseAddSub(){
-            Debug.StartTree("Parse EXPRESSION");
+            Debug.StartBranch("Parse EXPRESSION");
 
             var left = ParseMulDiv();
             
@@ -106,13 +117,13 @@ namespace SLProject.SLCompilerLib.Parser
                 var right = ParseMulDiv();
                 left = new ExpressionNode(op, left, right);
             }
-            Debug.EndTree("Parse EXPRESSION");
+            Debug.EndBranch();
             return left;
         }
 
         NumberNode ParseMulDiv()
         {
-            Debug.StartTree("Parse MUL-DIV");
+            Debug.StartBranch("Parse MUL-DIV");
 
 
             var left = ParseUnary();
@@ -143,14 +154,14 @@ namespace SLProject.SLCompilerLib.Parser
                 left = new ExpressionNode(op, left, right);
             }
             
-            Debug.EndTree("Parse MUL-DIV");
+            Debug.EndBranch();
 
             return left;
         }
 
         NumberNode ParseUnary()
         {
-            Debug.StartTree("Parse UNARY");
+            Debug.StartBranch("Parse UNARY");
 
             //unary plus
             if(GetToken().Type == TokenType.Plus)
@@ -158,7 +169,7 @@ namespace SLProject.SLCompilerLib.Parser
                 Advance();
                 var n = ParseUnary();
 
-                Debug.EndTree("Parse UNARY");
+                Debug.EndBranch();
 
                 return n;
             }
@@ -168,26 +179,26 @@ namespace SLProject.SLCompilerLib.Parser
             {
                 Advance();
                 var n = new ExpressionNode(a => -a, ParseUnary());
-                Debug.EndTree("Parse UNARY");
+                Debug.EndBranch();
 
                 return n;
             }
 
             var leaf = ParseLeaf();
 
-            Debug.EndTree("Parse UNARY");
+            Debug.EndBranch();
 
             return leaf;
         }
 
         NumberNode ParseLeaf()
         {
-            Debug.StartTree("Parse LEAF");
+            Debug.StartBranch("Parse LEAF");
 
 
             //parentethis
             if(GetToken().Type == TokenType.LPar){
-                Debug.WriteTree("Parse Parentethis");
+                Debug.WriteBranch("Parse Parentethis");
 
                 Advance();
                 var node = ParseExpression();
@@ -196,7 +207,7 @@ namespace SLProject.SLCompilerLib.Parser
                 }
                 Advance();
 
-                Debug.EndTree("Parse LEAF");
+                Debug.EndBranch();
 
                 return node;
             }
@@ -205,34 +216,19 @@ namespace SLProject.SLCompilerLib.Parser
             //number
             if (GetToken().Type == TokenType.Number)
             {
-                Debug.WriteTree("Parse Number");
+                Debug.WriteBranch("Parse Number");
 
                 NumberNode node = new NumberNode(GetToken().GetDoubleValue());
                 Advance();
 
-                Debug.EndTree("Parse LEAF");
-
-                return node;
-            }
-
-
-            //variable
-            if (GetToken().Type == TokenType.Identifier){
-                Debug.WriteTree("Parse Identifier");
-
-                
-                NumberNode node = new NumberNode(reflectionContext.ResolveVariable(GetToken().GetStrValue()));
-                Debug.Write($"Variable \"{GetToken().GetStrValue()}\" = {node.Eval()}");
-                Advance();
-
-                Debug.EndTree("Parse LEAF");
+                Debug.EndBranch();
 
                 return node;
             }
 
             ThrowException(ExceptionType.TokenExpected, "Number is required !", "PARSER_parseleaf_210");
             
-            Debug.EndTree("Parse LEAF");
+            Debug.EndBranch();
 
             return null;
         }
@@ -260,6 +256,28 @@ namespace SLProject.SLCompilerLib.Parser
 
         bool IsIdent(){
             return GetToken().Type == TokenType.Identifier;
+        }
+
+        Accessor GetAccessor()
+        {
+            List<string> idents = new List<string>();
+            bool point = false;
+
+            while(GetToken().Type == TokenType.Identifier)
+            {
+                point = false;
+                idents.Add(GetToken().GetStrValue());
+                Advance();
+
+                if(GetToken().Type == TokenType.Point)
+                {
+                    point = true;
+                    Advance();
+                }
+            }
+            if (point)
+                ThrowException(ExceptionType.TokenUnexcpected, "Accessors cannot finish by a point !", "PARSER_getaccessor_287");
+            return new Accessor(idents);
         }
 
         Token Advance(int step = 1)

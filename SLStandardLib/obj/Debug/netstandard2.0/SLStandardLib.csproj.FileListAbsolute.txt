@@ -1,5 +1,4 @@
 C:\Users\Xavier\source\repos\SLProject\SLStandardLib\obj\Debug\netstandard2.0\SLStandardLib.csprojAssemblyReference.cache
-C:\Users\Xavier\source\repos\SLProject\SLStandardLib\obj\Debug\netstandard2.0\SLStandardLib.csproj.CoreCompileInputs.cache
 C:\Users\Xavier\source\repos\SLProject\SLStandardLib\obj\Debug\netstandard2.0\SLStandardLib.AssemblyInfoInputs.cache
 C:\Users\Xavier\source\repos\SLProject\SLStandardLib\obj\Debug\netstandard2.0\SLStandardLib.AssemblyInfo.cs
 C:\Users\Xavier\source\repos\SLProject\SLStandardLib\bin\Debug\netstandard2.0\SLProject.SLStandardLib.deps.json

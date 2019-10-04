@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SLProject.SLCompilerLib{
     static class Debug{
@@ -6,6 +7,7 @@ namespace SLProject.SLCompilerLib{
         public static ConsoleColor color = ConsoleColor.Green;
 
         static int TreeLevel = 0;
+        static Stack<string> branches = new Stack<string>();
 
         public static void Write(string message){
             if(!on)
@@ -16,15 +18,16 @@ namespace SLProject.SLCompilerLib{
             Console.ForegroundColor = temp;
         }
 
-        public static void StartTree(string name){
-            WriteOffset("START -> " + name, TreeLevel++);
+        public static void StartBranch(string name){
+            branches.Push(name);
+            WriteOffset("START -> " + branches.Peek(), branches.Count - 1);
         }
 
-        public static void EndTree(string name){
-            WriteOffset("END -> " + name, --TreeLevel);
+        public static void EndBranch(){
+            WriteOffset("END -> " + branches.Pop(), branches.Count);
         }
 
-        public static void WriteTree(string text){
+        public static void WriteBranch(string text){
             WriteOffset(text, TreeLevel);
         }
 

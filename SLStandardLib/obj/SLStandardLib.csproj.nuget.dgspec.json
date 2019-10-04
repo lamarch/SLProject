@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {}
+    "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {
+    "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
+        "projectUniqueName": "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
         "projectName": "SLProject.SLStandardLib",
-        "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
-        "packagesPath": "C:\\Users\\Elève\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\obj\\",
+        "projectPath": "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLStandardLib\\SLStandardLib.csproj",
+        "packagesPath": "C:\\Users\\Xavier\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLStandardLib\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Elève\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Xavier\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

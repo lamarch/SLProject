@@ -9,3 +9,14 @@ C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.csproj.CopyComplete
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLProject.SLCompilerLib.dll
 C:\Users\Elève\Documents\Perso\Programmation\SLProject\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLProject.SLCompilerLib.pdb
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\bin\Debug\netstandard2.0\SLProject.SLCompilerLib.deps.json
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\bin\Debug\netstandard2.0\SLProject.SLCompilerLib.dll
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\bin\Debug\netstandard2.0\SLProject.SLCompilerLib.pdb
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\bin\Debug\netstandard2.0\SLProject.SLStandardLib.dll
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\bin\Debug\netstandard2.0\SLProject.SLStandardLib.pdb
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.csprojAssemblyReference.cache
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.AssemblyInfoInputs.cache
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.AssemblyInfo.cs
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLCompilerLib.csproj.CopyComplete
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLProject.SLCompilerLib.dll
+C:\Users\Xavier\source\repos\SLProject\SLCompilerLib\obj\Debug\netstandard2.0\SLProject.SLCompilerLib.pdb

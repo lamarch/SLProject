@@ -104,7 +104,7 @@ namespace SLProject.SLCompilerLib.Lexer
             bool hasPoint = false;
             int len = 0;
 
-            if (!char.IsDigit(PeekChar()) && PeekChar() != '.')
+            if (!char.IsDigit(PeekChar()))
                 return false;
 
             while (true)
