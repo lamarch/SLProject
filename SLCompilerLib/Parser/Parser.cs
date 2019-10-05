@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using SLProject.SLCompilerLib.Lexer;
 using SLProject.SLCompilerLib.Parser.Nodes;
 
@@ -16,7 +17,7 @@ namespace SLProject.SLCompilerLib.Parser
             this.keywords = keywords;
         }
 
-        public NumberNode Parse(List<Token> tokens)
+        public ProgramNode Parse(List<Token> tokens)
         {
             Debug.Write("-----START PARSER-----\n");
 
@@ -25,10 +26,10 @@ namespace SLProject.SLCompilerLib.Parser
             this.tokens = tokens;
 
             ParseImport();
-            NumberNode root = ParseExpression();
+            ParseBodies();
 
             if (GetToken().Type != TokenType.EOF)
-                ThrowException(ExceptionType.TokenExpected, "EOF expected !", "PARSER_parse_32");
+                ThrowException(ExceptionType.TokenExpected, "EOF expected !", "PARSER:sys");
 
             for (int i = 0; i < errors.Count; i++)
             {
@@ -37,18 +38,19 @@ namespace SLProject.SLCompilerLib.Parser
 
             Debug.Write("\n-----END PARSER-----\n");
 
-            return root;
+            return new ProgramNode();
         }
 
         List<ImportNode> ParseImport(){
             Debug.StartBranch("Parse IMPORTS");
             List<ImportNode> imports = new List<ImportNode>();
             Accessor accessor = null;
+
             while(IsKeyword("importer")){
                 Advance();
                 if (!IsIdent())
                 {
-                    ThrowException(ExceptionType.TokenExpected, "Identifier expected after \"importer\" keyword !", "PARSER_parseimport_49");
+                    ThrowException(ExceptionType.TokenExpected, "Identifier expected after \"importer\" keyword !", "PARSER:user");
                 }
                 accessor = GetAccessor();
                 Debug.WriteBranch("IMPORT found (\""+ accessor +"\") !");
@@ -59,35 +61,91 @@ namespace SLProject.SLCompilerLib.Parser
             return imports;
         }
 
-        void ParseBody(){
-
+        /// <summary>
+        /// Parse all except imports
+        /// </summary>
+        /// <returns></returns>
+        BodiesNode ParseBodies(){
+            BodiesNode bodies = new BodiesNode();
+            FunctionNode main = new FunctionNode();
+            while(GetToken().Type != TokenType.EOF)
+            {
+                if(IsKeyword("fonction"))
+                {
+                    bodies.FunctionNodes.Add(ParseFunction());
+                }
+                else
+                {
+                    main.AddStmt(ParseStmt());
+                }
+            }
+            return new BodiesNode();
         }
 
-        void ParseModule(){
-
+        /// <summary>
+        /// Take all stmts and put them in a function
+        /// </summary>
+        /// <returns></returns>
+        FunctionNode ParseFunction()
+        {
+            if (!IsKeyword("fonction"))
+            {
+                ThrowException(ExceptionType.TokenExpected, "\"fonction\" keywords expected !", "PARSER:sys");
+            }
+            return null;
         }
 
-        void ParseFunction(){
+        /// <summary>
+        /// Take all lines(one or more) and make a stmt(statement)
+        /// </summary>
+        /// <returns></returns>
+        StatementsNode ParseStmt()
+        {
+            StatementsNode node = null;
+            List<Token> stmt_toks = new List<Token>();
+            if(GetToken().Type == TokenType.Keyword)
+            {
+                if (IsKeyword("fonction"))
+                {
+                    ThrowException(ExceptionType.TokenUnexcpected, "ParseStmt cannot parse function !", "PARSER:sys");
+                }
+            }
 
+            return node;
         }
 
-        void ParseMain(){
-
-        }
-
-        NumberNode ParseExpression()
+        ValueNode ParseExpression()
         {
             Debug.StartBranch("Parse EXPRESSION");
 
-            var expr = ParseAddSub();
-            Debug.EndBranch();
-            return expr;
+            if(GetToken().Type == TokenType.String)
+            {
+                Debug.WriteBranch("STRING value found !");
+                Debug.EndBranch();         
+                return new ValueNode(ValueNode.ValueType.@string, new StringNode(GetToken().GetStrValue()));
+            }
+            else
+            {
+                NumberNode expr = ParseAddSub(out bool isNum);
+                if (isNum)
+                {
+                    Debug.WriteBranch("NUMBER value found !");
+                    Debug.EndBranch();
+                    return new ValueNode(ValueNode.ValueType.number, expr);
+                }
+                else
+                {
+                    Debug.WriteBranch("UNKNOWN value found !");
+                    ThrowException(ExceptionType.ValueError, "Unknowkn value found !", "PARSER:undef");
+                }
+            }
+            return null;
         }
 
-        NumberNode ParseAddSub(){
-            Debug.StartBranch("Parse EXPRESSION");
+        NumberNode ParseAddSub(out bool isNum){
+            Debug.StartBranch("Parse ADD-SUB");
 
-            var left = ParseMulDiv();
+            var left = ParseMulDiv(out isNum);
             
             Func<double, double, double> op = null;
             while (true)
@@ -114,19 +172,19 @@ namespace SLProject.SLCompilerLib.Parser
                 }
 
                 Advance();
-                var right = ParseMulDiv();
+                var right = ParseMulDiv(out _);
                 left = new ExpressionNode(op, left, right);
             }
             Debug.EndBranch();
             return left;
         }
 
-        NumberNode ParseMulDiv()
+        NumberNode ParseMulDiv(out bool isNum)
         {
             Debug.StartBranch("Parse MUL-DIV");
 
 
-            var left = ParseUnary();
+            var left = ParseUnary(out isNum);
             Func<double, double, double> op = null;
 
             while(true){
@@ -150,7 +208,7 @@ namespace SLProject.SLCompilerLib.Parser
 
                 Advance();
 
-                var right = ParseUnary();
+                var right = ParseUnary(out _);
                 left = new ExpressionNode(op, left, right);
             }
             
@@ -159,7 +217,7 @@ namespace SLProject.SLCompilerLib.Parser
             return left;
         }
 
-        NumberNode ParseUnary()
+        NumberNode ParseUnary(out bool isNum)
         {
             Debug.StartBranch("Parse UNARY");
 
@@ -167,7 +225,7 @@ namespace SLProject.SLCompilerLib.Parser
             if(GetToken().Type == TokenType.Plus)
             {
                 Advance();
-                var n = ParseUnary();
+                var n = ParseUnary(out isNum);
 
                 Debug.EndBranch();
 
@@ -178,21 +236,23 @@ namespace SLProject.SLCompilerLib.Parser
             if(GetToken().Type == TokenType.Minus)
             {
                 Advance();
-                var n = new ExpressionNode(a => -a, ParseUnary());
+                var n = new ExpressionNode(a => -a, ParseUnary(out isNum));
                 Debug.EndBranch();
 
                 return n;
             }
 
-            var leaf = ParseLeaf();
+            var leaf = ParseLeaf(out isNum);
 
             Debug.EndBranch();
 
             return leaf;
         }
 
-        NumberNode ParseLeaf()
+        NumberNode ParseLeaf(out bool isNum)
         {
+            isNum = true;
+
             Debug.StartBranch("Parse LEAF");
 
 
@@ -201,9 +261,9 @@ namespace SLProject.SLCompilerLib.Parser
                 Debug.WriteBranch("Parse Parentethis");
 
                 Advance();
-                var node = ParseExpression();
+                var node = ParseAddSub(out isNum);
                 if(GetToken().Type != TokenType.RPar){
-                    ThrowException(ExceptionType.TokenExpected, "Close parentethis expected !", "PARSER_parseleaf_172");
+                    ThrowException(ExceptionType.TokenExpected, "Close parentethis expected !", "PARSER:user");
                 }
                 Advance();
 
@@ -226,7 +286,7 @@ namespace SLProject.SLCompilerLib.Parser
                 return node;
             }
 
-            ThrowException(ExceptionType.TokenExpected, "Number is required !", "PARSER_parseleaf_210");
+            isNum = false;
             
             Debug.EndBranch();
 
@@ -236,18 +296,20 @@ namespace SLProject.SLCompilerLib.Parser
 
         #region moves
 
-        public static void ThrowException(ExceptionType type, string message, string code){
+        public static void ThrowException(ExceptionType type, string message, string code, [CallerLineNumber]int line = -1, [CallerMemberName]string caller = "NO_CALLER_CAUGHT", [CallerFilePath]string file = "NO_FILE"){
+            string exception_msg = "ERROR-" + code + " @ file:\"" + file + "\" caller:" + caller + " line:" + line + "\n";
             if(type == ExceptionType.TokenExpected){
-                throw new Exception("Token Expected Exception ["+code+"] : " + message);
+                exception_msg += "Token Expected Exception : " + message;
             }else if(type == ExceptionType.TokenUnexcpected){
-                throw new Exception("Token Unexpected Exception ["+code+"] : " + message);
+                exception_msg += "Token Unexpected Exception : " + message;
             }else if(type == ExceptionType.ValueError){
-                throw new Exception("Value Error Exception ["+code+"] : " + message);
+                exception_msg += "Value Error Exception : " + message;
             }else if(type == ExceptionType.UnknownIdentifier){
-                throw new Exception("Unknown Identifier Error Exception ["+code+"] : " + message);
+                exception_msg += "Unknown Identifier Error Exception : " + message;
             }else{
-                throw new Exception("Unknown Exception ["+code+"] : " + message);
+                exception_msg += "Unknown Exception : " + message;
             }
+            throw new Exception(exception_msg);
         }
 
         bool IsKeyword(string name){
@@ -276,7 +338,7 @@ namespace SLProject.SLCompilerLib.Parser
                 }
             }
             if (point)
-                ThrowException(ExceptionType.TokenUnexcpected, "Accessors cannot finish by a point !", "PARSER_getaccessor_287");
+                ThrowException(ExceptionType.TokenUnexcpected, "Accessors cannot finish by a point !", "PARSER:user");
             return new Accessor(idents);
         }
 

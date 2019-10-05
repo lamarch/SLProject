@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using SLProject.SLCompilerLib;
 
 namespace SLProject
@@ -10,15 +11,21 @@ namespace SLProject
         {
             Compiler compiler = new Compiler();
 
-            string rep;
-            string[] com;
+            string code;
+            string fname;
+            string[] com = new string[0];
             bool debug = true;
 
             while(true){
-                Console.WriteLine("Votre calcul :");
-                rep = Console.ReadLine();
-                
-                com = rep.Split(' ');
+                Console.WriteLine("Fichier à compiler :");
+                fname = Console.ReadLine();
+                if (!File.Exists(fname))
+                {
+                    Console.WriteLine("Ce fichier n'existe pas !");
+                    continue;
+                }
+                code = File.ReadAllText(fname);
+
                 if(com.Length > 1 && com[0] == "$"){
                     switch(com[1]){
                         case "debug":
@@ -43,8 +50,8 @@ namespace SLProject
                     }
                 }else{
                     try{
-                        Console.WriteLine("Calcul en cours...");
-                        compiler.Compile(rep, debug);
+                        Console.WriteLine("Compilation en cours...");
+                        compiler.Compile(code, debug);
                     }catch(Exception e){
                         Console.WriteLine("Une erreur est survenue :\n\t"+e.Message);
                     }
