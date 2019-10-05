@@ -17,13 +17,22 @@ namespace SLProject
             bool debug = true;
 
             while(true){
-                Console.WriteLine("Fichier à compiler :");
-                fname = Console.ReadLine();
-                if (!File.Exists(fname))
+                if (!File.Exists("test.txt"))
                 {
-                    Console.WriteLine("Ce fichier n'existe pas !");
-                    continue;
+                    Console.WriteLine("Fichier à compiler :");
+                    fname = Console.ReadLine();
+                    if (!File.Exists(fname))
+                    {
+                        Console.WriteLine("Ce fichier n'existe pas !");
+                        continue;
+                    }
                 }
+                else
+                {
+                    Console.WriteLine("Fichier test détecté !");
+                    fname = "test.txt";
+                }
+
                 code = File.ReadAllText(fname);
 
                 if(com.Length > 1 && com[0] == "$"){
@@ -57,6 +66,7 @@ namespace SLProject
                     }
                     Console.WriteLine();
                 }
+                Console.ReadLine();
             }
         }
     }

@@ -10,16 +10,11 @@ namespace SLProject.SLCompilerLib
 
         Parser.Parser parser;
         Lexer.Lexer lexer;
-        List<string> keywords;
 
 
-        public Compiler(List<string> keywords){
-            this.lexer = new Lexer.Lexer(keywords);
-            this.parser = new Parser.Parser(keywords);
-            this.keywords = keywords;
-        }
-        public Compiler() : this(def_keywords)
-        {
+        public Compiler(){
+            this.lexer = new Lexer.Lexer(def_keywords);
+            this.parser = new Parser.Parser(def_keywords);
         }
 
         public void Compile(string code, bool debug){

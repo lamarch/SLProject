@@ -66,19 +66,27 @@ namespace SLProject.SLCompilerLib.Parser
         /// </summary>
         /// <returns></returns>
         BodiesNode ParseBodies(){
+            Debug.StartBranch("Parse BODIES");
             BodiesNode bodies = new BodiesNode();
             FunctionNode main = new FunctionNode();
             while(GetToken().Type != TokenType.EOF)
             {
                 if(IsKeyword("fonction"))
                 {
+                    Debug.WriteBranch("Function found !");
+
                     bodies.FunctionNodes.Add(ParseFunction());
+                }else if(GetToken().Type == TokenType.RTL)
+                {
+                    Advance();
                 }
                 else
                 {
+                    Debug.WriteBranch("Statement found !");
                     main.AddStmt(ParseStmt());
                 }
             }
+            Debug.EndBranch();
             return new BodiesNode();
         }
 
@@ -88,10 +96,12 @@ namespace SLProject.SLCompilerLib.Parser
         /// <returns></returns>
         FunctionNode ParseFunction()
         {
+            Debug.StartBranch("Parse FUNCTION");
             if (!IsKeyword("fonction"))
             {
                 ThrowException(ExceptionType.TokenExpected, "\"fonction\" keywords expected !", "PARSER:sys");
             }
+            Debug.EndBranch();
             return null;
         }
 
@@ -101,6 +111,8 @@ namespace SLProject.SLCompilerLib.Parser
         /// <returns></returns>
         StatementsNode ParseStmt()
         {
+            Debug.StartBranch("Parse STATEMENT");
+
             StatementsNode node = null;
             List<Token> stmt_toks = new List<Token>();
             if(GetToken().Type == TokenType.Keyword)
@@ -110,6 +122,11 @@ namespace SLProject.SLCompilerLib.Parser
                     ThrowException(ExceptionType.TokenUnexcpected, "ParseStmt cannot parse function !", "PARSER:sys");
                 }
             }
+            else
+            {
+                ThrowException(ExceptionType.TokenUnexcpected, "Statement cannot start with an other token that \"keyword\" : " + GetToken().Type, "PARSER:user");
+            }
+            Debug.EndBranch();
 
             return node;
         }
