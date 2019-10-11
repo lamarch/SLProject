@@ -1,6 +1,6 @@
-SLCompiler/bin/
-SLCompiler/obj/
-SLDebuger/bin/
-SLDebuger/obj/
-SLStandardLib/bin/
-SLStandardLib/obj/
+#SLCompiler/bin/
+#SLCompiler/obj/
+#SLDebuger/bin/
+#SLDebuger/obj/
+#SLStandardLib/bin/
+#SLStandardLib/obj/
