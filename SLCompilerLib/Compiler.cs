@@ -25,7 +25,7 @@ namespace SLProject.SLCompilerLib
             Debug.Write("----------START COMPILATION----------\n");
             List<Lexer.Token> tokens = lexer.Lex(code);
             var res = parser.Parse(tokens);
-            Console.WriteLine("Result : " + res);
+            Console.WriteLine("Result : " + res.ToString());
             Debug.Write("\n----------END COMPILATION----------\n");
             
         }
