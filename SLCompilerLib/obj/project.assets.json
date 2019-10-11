@@ -195,37 +195,35 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Xavier\\.nuget\\packages\\": {},
+    "C:\\Users\\Elève\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj",
+      "projectUniqueName": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj",
       "projectName": "SLProject.SLCompilerLib",
-      "projectPath": "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj",
-      "packagesPath": "C:\\Users\\Xavier\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLCompilerLib\\obj\\",
+      "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\SLCompilerLib.csproj",
+      "packagesPath": "C:\\Users\\Elève\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLCompilerLib\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Xavier\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Elève\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {
-              "projectPath": "C:\\Users\\Xavier\\source\\repos\\SLProject\\SLStandardLib\\SLStandardLib.csproj"
+            "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj": {
+              "projectPath": "C:\\Users\\Elève\\Documents\\Perso\\Programmation\\SLProject\\SLProject\\SLStandardLib\\SLStandardLib.csproj"
             }
           }
         }
