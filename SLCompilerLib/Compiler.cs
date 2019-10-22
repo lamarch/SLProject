@@ -5,39 +5,41 @@ namespace SLProject.SLCompilerLib
 {
     public class Compiler
     {
-        bool debug;
-        string code;
+        private bool debug;
+        private string code;
+        private Parser.Parser parser;
+        private Lexer.Lexer lexer;
 
-        Parser.Parser parser;
-        Lexer.Lexer lexer;
 
-
-        public Compiler(){
-            this.lexer = new Lexer.Lexer(def_keywords);
-            this.parser = new Parser.Parser(def_keywords);
+        public Compiler ()
+        {
+            this.lexer = new Lexer.Lexer();
+            this.parser = new Parser.Parser();
         }
 
-        public void Compile(string code, bool debug){
+        public void Compile ( string code, bool debug )
+        {
             this.code = code;
             this.debug = debug;
             Debug.on = debug;
-            Debug.Init();
-            Debug.Write("----------START COMPILATION----------\n");
-            List<Lexer.Token> tokens = lexer.Lex(code);
-            var res = parser.Parse(tokens);
-            Console.WriteLine("Result : " + res);
-            Debug.Write("\n----------END COMPILATION----------\n");
-            
-        }
+            Debug.Write( "----------START COMPILATION----------\n" );
 
-        public static readonly List<string> def_keywords = new List<string>()
-        {
-                "function",
-                "module",
-                "programme",
-                "si",
-                "fin",
-                "importer"
-        };
+            Debug.Write( "-----START LEXER-----\n" );
+
+            List<Lexer.Token> tokens = this.lexer.Lex(code);
+
+            Debug.Write( "\n-----END LEXER-----\n" );
+
+            Debug.Write( "-----START PARSER-----\n" );
+
+            var res = this.parser.Parse(tokens);
+
+            Debug.Write( "\n-----END PARSER-----\n" );
+
+            Console.WriteLine( "Result : " + res );
+
+            Debug.Write( "\n----------END COMPILATION----------\n" );
+
+        }
     }
 }

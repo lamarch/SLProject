@@ -6,7 +6,6 @@ namespace SLProject.SLCompilerLib{
         public static bool on = true;
         public static ConsoleColor color = ConsoleColor.Green;
 
-        static int TreeLevel = 0;
         static Stack<string> branches = new Stack<string>();
 
         public static void Write(string message){
@@ -24,11 +23,12 @@ namespace SLProject.SLCompilerLib{
         }
 
         public static void EndBranch(){
-            WriteOffset("END -> " + branches.Pop(), branches.Count);
+            WriteOffset("----\n", branches.Count - 1);
+            branches.Pop();
         }
 
         public static void WriteBranch(string text){
-            WriteOffset(text, TreeLevel);
+            WriteOffset(text, branches.Count);
         }
 
         static void WriteOffset(string text, int offset){
@@ -39,10 +39,6 @@ namespace SLProject.SLCompilerLib{
                 offs += "    ";
             }
             Write(offs + text);
-        }
-
-        public static void Init(){
-            TreeLevel = 0;
         }
     }
 }

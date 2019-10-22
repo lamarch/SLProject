@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SLProject.SLCompilerLib.Parser.Nodes
 {
-    class StringNode
+    public class StringNode
     {
         public StringNode(string value)
         {

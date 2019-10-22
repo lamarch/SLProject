@@ -1,5 +1,19 @@
-importer lol.jean2
+data: label
 
-si ok alors
-lol
-fin si
+	const "my_const" "test"
+	const "my_super_number" 64
+
+	global "ma_variable_global" 554
+	global "ma_chaine_pour_tout_le_monde" "salut !"
+
+
+start: label
+
+	alloc "my_local_int" 450 4
+	put &my_local_int 54
+	ref &my_local_int 789
+	
+	
+	
+
+	

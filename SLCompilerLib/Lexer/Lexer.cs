@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Text;
 
@@ -10,17 +11,14 @@ namespace SLProject.SLCompilerLib.Lexer
         string code;
         int length;
         int index;
-        List<string> keywords;
 
 
-        public Lexer(List<string> keywords)
+        public Lexer()
         {
-            this.keywords = keywords;
         }
 
         public List<Token> Lex(string code)
         {
-            Debug.Write("-----START LEXER-----\n");
 
             List<Token> ret = new List<Token>();
             this.code = code;
@@ -35,7 +33,6 @@ namespace SLProject.SLCompilerLib.Lexer
                 Debug.Write("New TOKEN found : " + token);
                 ret.Add(token);
             }
-            Debug.Write("\n-----END LEXER-----\n");
 
             return ret;
         }
@@ -50,7 +47,7 @@ namespace SLProject.SLCompilerLib.Lexer
             if (IsEOF())
                 return new Token(TokenType.EOF);
 
-            if (IsRTL(PeekChar()))
+            if (IsRTL())
             {
                 Advance();
                 return new Token(TokenType.RTL);
@@ -227,17 +224,19 @@ namespace SLProject.SLCompilerLib.Lexer
                         stop = true;
                         break;
                         
-                }//switch
-            }//while
+                }//switch close
+            }//while close
             if (len == 0)
                 return false;
             else
             {
                 string extracted = code.Substring(startPos, len);
                 Token new_tok;
+                /*
                 if (keywords.Contains(extracted))
                     new_tok = new Token(TokenType.Keyword, extracted);
                 else
+                */
                     new_tok = new Token(TokenType.Identifier, extracted);
 
                 token = new_tok;
@@ -275,12 +274,6 @@ namespace SLProject.SLCompilerLib.Lexer
                         Advance(2);
 
                     }
-                    else if(PeekChar(1) == '<')
-                    {
-                        type = TokenType.LessLess;
-                        Advance(2);
-
-                    }
                     else
                     {
                         type = TokenType.Less;
@@ -292,12 +285,6 @@ namespace SLProject.SLCompilerLib.Lexer
                     if (PeekChar(1) == '=')
                     {
                         type = TokenType.GreatherEqual;
-                        Advance(2);
-
-                    }
-                    else if (PeekChar(1) == '<')
-                    {
-                        type = TokenType.GreatherGreather;
                         Advance(2);
 
                     }
@@ -335,55 +322,57 @@ namespace SLProject.SLCompilerLib.Lexer
 
                 case '(':
                     type = TokenType.LPar;
-                    Advance(1);
+                    Advance( 1 );
                     break;
 
                 case ')':
                     type = TokenType.RPar;
-                    Advance(1);
+                    Advance( 1 );
                     break;
 
-                case '[':
-                    type = TokenType.LHook;
-                    Advance(1);
-                    break;
+                //case '[':
+                //    type = TokenType.LHook;
+                //    Advance(1);
+                //    break;
 
-                case ']':
-                    type = TokenType.RHook;
-                    Advance(1);
-                    break;
+                //case ']':
+                //    type = TokenType.RHook;
+                //    Advance(1);
+                //    break;
 
-                case '{':
-                    type = TokenType.LBra;
-                    Advance(1);
-                    break;
+                //case '{':
+                //    type = TokenType.LBra;
+                //    Advance(1);
+                //    break;
 
-                case '}':
-                    type = TokenType.RBra;
-                    Advance(1);
-                    break;
+                //case '}':
+                //    type = TokenType.RBra;
+                //    Advance(1);
+                //    break;
 
-                case '.':
-                    type = TokenType.Point;
-                    Advance(1);
-                    break;
+                //case '.':
+                //    type = TokenType.Point;
+                //    Advance(1);
+                //    break;
 
-                case ',':
-                    type = TokenType.Comma;
-                    Advance(1);
-                    break;
+                //case ',':
+                //    type = TokenType.Comma;
+                //    Advance(1);
+                //    break;
 
                 case ':':
-                    if(PeekChar(1) == ':')
-                    {
-                        type = TokenType.ColonColon;
-                        Advance(2);
-                    }
-                    else
-                    {
-                        type = TokenType.Colon;
-                        Advance(1);
-                    }
+                    type = TokenType.Colon;
+                    Advance(1);
+                    break;
+
+                case '$':
+                    type = TokenType.Dollar;
+                    Advance(1);
+                    break;
+
+                case '&':
+                    type = TokenType.Ampersand;
+                    Advance(1);
                     break;
 
                 default:
@@ -399,7 +388,21 @@ namespace SLProject.SLCompilerLib.Lexer
             
         }
 
-        bool IsRTL(char c) => c == '\n';
+        bool IsRTL ()
+        {
+            if ( PeekChar() == '\n' ) {
+                if ( PeekChar( 1 ) == '\r' ) {
+                    Advance();
+                }
+                return true;
+            } else if(PeekChar() == '\r'){
+                if ( PeekChar( 1 ) == '\n' ) {
+                    Advance();
+                }
+                return true;
+            }
+            return false;
+        }
 
         bool IsSpace(char c) => c == ' ' || c == '\t';
 
