@@ -10,4 +10,8 @@
     <ProjectReference Include="..\SLStandardLib\SLStandardLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assembleur\" />
+  </ItemGroup>
+
 </Project>
